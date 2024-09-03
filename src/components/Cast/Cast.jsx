@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchActors } from "components/TMDBApi";
 import Loader from "components/Loader/Loader";
+import { List, Text } from "./Cast.styled";
 
 const Cast = () => {
     const [actorsInfo, setActorsInfo] = useState([]);
@@ -26,17 +27,17 @@ const Cast = () => {
         <>
             {isLoading && <Loader />}
             <h2>Movie cast</h2>
-            <ul>
+            <List>
                 {actorsInfo.map(({ id, name, original_name, profile_path, character }) => (
                     <li key={id}>
-                        <img src={`https://image.tmdb.org/t/p/w500/${profile_path}`} alt={original_name} width="100px"/>
-                        <p>{name}</p>
-                        <p>Character:{character}</p>
+                        <img src={`https://image.tmdb.org/t/p/w500/${profile_path}`} alt={original_name} width="200px"/>
+                        <Text>{name}</Text>
+                        <Text>Character: {character}</Text>
                     </li>
                 ))
                     
                 }
-            </ul>
+            </List>
         </>
     )
     

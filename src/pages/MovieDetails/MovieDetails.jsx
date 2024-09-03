@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fetchMovieDetails } from 'components/TMDBApi';
 import Loader from 'components/Loader/Loader';
-import { Outlet, Link, useParams, useLocation} from 'react-router-dom';
+import { Outlet,Link, useParams, useLocation } from 'react-router-dom';
+import { Button, Container, List, AdditionalList, AdditionalLink} from './MovieDetails.styled';
 
 const MovieDetails = () => {
     const { movieId } = useParams();
     const [infoMovie, setInfoMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();
+    const backLinkRef = useRef(location);
 
     useEffect(() => {
         
@@ -33,38 +35,40 @@ const MovieDetails = () => {
 
     return (
         <>
-            <Link to={location.state?.from ?? '/'}>
-                <button>Go back</button>
+            <Link to={backLinkRef.state?.from ?? '/'}>
+                <Button>Go back</Button>
             </Link>
             {isLoading && <Loader />}
         
             {infoMovie && (
-                <div>
-                    <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={original_title} width="250px"/>
-                    <h1>{title}({release_date.slice(0,4)})</h1>
-                    <p>User score: {popularity}%</p>
-                    <h2>Overview</h2>
-                    <p>{overview}</p>
-                    <h2>Genres</h2>
-                    <ul>
-                        {genres.map(genre => (
-                            <li key={genre.id}>{genre.name}</li>
-                        ))}
-                    </ul>
-                </div>
+                <Container>
+                    <img src={`https://image.tmdb.org/t/p/w500/${poster_path}`} alt={original_title} width="250px" />
+                    <div>
+                        <h1>{title}({release_date.slice(0,4)})</h1>
+                        <p>User score: {popularity}%</p>
+                        <h2>Overview</h2>
+                        <p>{overview}</p>
+                        <h2>Genres</h2>
+                        <List>
+                            {genres.map(genre => (
+                                <li key={genre.id}>{genre.name}</li>
+                            ))}
+                        </List>
+                    </div>
+                </Container>
             )}
 
             <hr />
             <div>
-                <h3>Additional information</h3>
-                <ul>
+                <h2>Additional information</h2>
+                <AdditionalList>
                     <li>
-                        <Link to='cast'>Cast</Link>
+                        <AdditionalLink to='cast'>Cast</AdditionalLink>
                     </li>
                     <li>
-                        <Link to='reviews'>Reviews</Link>
+                        <AdditionalLink to='reviews'>Reviews</AdditionalLink>
                     </li>
-                </ul>
+                </AdditionalList>
                 <hr />
                 <Outlet/>
             </div>

@@ -43,6 +43,7 @@ const Movies = () => {
             
             <Form searchMovies={updateQueryString} />
             {isLoading && <Loader />}
+            
             {searchFilm && <TrendingList films={searchFilm} />}
             
             
