@@ -35,7 +35,7 @@ const MovieDetails = () => {
 
     return (
         <>
-            <Link to={backLinkRef.state?.from ?? '/'}>
+            <Link to={backLinkRef.current.state?.from ?? '/'}>
                 <Button>Go back</Button>
             </Link>
             {isLoading && <Loader />}
